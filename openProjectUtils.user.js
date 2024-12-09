@@ -212,12 +212,25 @@ function initializeTaskBoardUtils() {
   const refreshInterval = setInterval(refreshOptions, 1000);
 }
 
+function orderItems(){
+    const uls = document.querySelectorAll("ul");
+    uls.forEach((ul) => {
+      const items = Array.from(ul.children);
+
+      const openItems = items.filter((li) => !li.classList.contains("closed"));
+      const closedItems = items.filter((li) => li.classList.contains("closed"));
+
+      [...openItems, ...closedItems].forEach((item) => ul.appendChild(item));
+    });
+}
+
 function initializeBacklogsUtils() {
   function collapseToggles() {
     const togglers = document.querySelectorAll("#content-body .toggler");
     if (togglers.length === 0) return;
     clearInterval(refreshInterval);
     togglers.forEach((e) => e.click());
+    orderItems();
   }
 
   const refreshInterval = setInterval(collapseToggles, 1000);
